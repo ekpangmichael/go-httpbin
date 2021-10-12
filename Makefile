@@ -5,20 +5,20 @@
 VERSION ?= $(shell git rev-parse --short HEAD)
 
 # Override these values to deploy to a different Cloud Run project
-GCLOUD_PROJECT ?= httpbingo
-GCLOUD_ACCOUNT ?= mccutchen@gmail.com
-GCLOUD_REGION  ?= us-central1
+# GCLOUD_PROJECT ?= httpbingo
+# GCLOUD_ACCOUNT ?= mccutchen@gmail.com
+# GCLOUD_REGION  ?= us-central1
 
 # The version tag for the Cloud Run deployment (override this to adjust
 # pre-production URLs)
-GCLOUD_TAG ?= "v-$(VERSION)"
+# GCLOUD_TAG ?= "v-$(VERSION)"
 
 # Run gcloud in a container to avoid needing to install the SDK locally
-GCLOUD_COMMAND ?= ./bin/gcloud
+# GCLOUD_COMMAND ?= ./bin/gcloud
 
 # We push docker images to both docker hub and gcr.io
 DOCKER_TAG_DOCKERHUB ?= mccutchen/go-httpbin:$(VERSION)
-DOCKER_TAG_GCLOUD    ?= gcr.io/$(GCLOUD_PROJECT)/go-httpbin:$(VERSION)
+# DOCKER_TAG_GCLOUD    ?= gcr.io/$(GCLOUD_PROJECT)/go-httpbin:$(VERSION)
 
 # Built binaries will be placed here
 DIST_PATH  	  ?= dist
@@ -36,12 +36,15 @@ TOOL_STATICCHECK := $(TOOL_BIN_DIR)/staticcheck
 
 GO_SOURCES = $(wildcard **/*.go)
 
+
 GENERATED_ASSETS_PATH := httpbin/assets/assets.go
 
 # =============================================================================
 # build
 # =============================================================================
+# build: dist/go-httpbin
 build: $(DIST_PATH)/go-httpbin
+
 
 $(DIST_PATH)/go-httpbin: assets $(GO_SOURCES)
 	mkdir -p $(DIST_PATH)
@@ -89,14 +92,14 @@ lint: $(TOOL_GOLINT) $(TOOL_STATICCHECK)
 	$(TOOL_STATICCHECK) ./...
 
 
-# =============================================================================
-# run locally
-# =============================================================================
-run: build
-	$(DIST_PATH)/go-httpbin
+# # =============================================================================
+# # run locally
+# # =============================================================================
+# run: build
+# 	$(DIST_PATH)/go-httpbin
 
-watch: $(TOOL_REFLEX)
-	reflex -s -r '\.(go|html)$$' make run
+# watch: $(TOOL_REFLEX)
+# 	reflex -s -r '\.(go|html)$$' make run
 
 
 # =============================================================================
@@ -107,35 +110,35 @@ deploy:
 
 
 # =============================================================================
-# deploy to google cloud run
-# =============================================================================
-deploy-cloud-run: gcloud-auth imagepush
-	$(GCLOUD_COMMAND) beta run deploy \
-		$(GCLOUD_PROJECT) \
-		--image=$(DOCKER_TAG_GCLOUD) \
-		--revision-suffix=$(VERSION) \
-		--tag=$(GCLOUD_TAG) \
-		--project=$(GCLOUD_PROJECT) \
-		--region=$(GCLOUD_REGION) \
-		--allow-unauthenticated \
-		--platform=managed
-	$(GCLOUD_COMMAND) run services update-traffic --to-latest
+# # deploy to google cloud run
+# # =============================================================================
+# deploy-cloud-run: gcloud-auth imagepush
+# 	$(GCLOUD_COMMAND) beta run deploy \
+# 		$(GCLOUD_PROJECT) \
+# 		--image=$(DOCKER_TAG_GCLOUD) \
+# 		--revision-suffix=$(VERSION) \
+# 		--tag=$(GCLOUD_TAG) \
+# 		--project=$(GCLOUD_PROJECT) \
+# 		--region=$(GCLOUD_REGION) \
+# 		--allow-unauthenticated \
+# 		--platform=managed
+# 	$(GCLOUD_COMMAND) run services update-traffic --to-latest
 
-stagedeploy-cloud-run: gcloud-auth imagepush
-	$(GCLOUD_COMMAND) beta run deploy \
-		$(GCLOUD_PROJECT) \
-		--image=$(DOCKER_TAG_GCLOUD) \
-		--revision-suffix=$(VERSION) \
-		--tag=$(GCLOUD_TAG) \
-		--project=$(GCLOUD_PROJECT) \
-		--region=$(GCLOUD_REGION) \
-		--allow-unauthenticated \
-		--platform=managed \
-		--no-traffic
+# stagedeploy-cloud-run: gcloud-auth imagepush
+# 	$(GCLOUD_COMMAND) beta run deploy \
+# 		$(GCLOUD_PROJECT) \
+# 		--image=$(DOCKER_TAG_GCLOUD) \
+# 		--revision-suffix=$(VERSION) \
+# 		--tag=$(GCLOUD_TAG) \
+# 		--project=$(GCLOUD_PROJECT) \
+# 		--region=$(GCLOUD_REGION) \
+# 		--allow-unauthenticated \
+# 		--platform=managed \
+# 		--no-traffic
 
-gcloud-auth:
-	@$(GCLOUD_COMMAND) auth list | grep '^\*' | grep -q $(GCLOUD_ACCOUNT) || $(GCLOUD_COMMAND) auth login $(GCLOUD_ACCOUNT)
-	@$(GCLOUD_COMMAND) auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://gcr.io
+# gcloud-auth:
+# 	@$(GCLOUD_COMMAND) auth list | grep '^\*' | grep -q $(GCLOUD_ACCOUNT) || $(GCLOUD_COMMAND) auth login $(GCLOUD_ACCOUNT)
+# 	@$(GCLOUD_COMMAND) auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://gcr.io
 
 
 # =============================================================================

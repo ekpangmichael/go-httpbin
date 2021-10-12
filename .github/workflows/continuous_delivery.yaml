@@ -26,6 +26,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Extract version from branch name (for release branches)
+      run: |
+          BRANCH_NAME=$(git rev-parse --short HEAD)
+          VERSION=${BRANCH_NAME}
+
+          echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
+
     - name: Build
       run: make build
 
@@ -38,12 +45,7 @@ jobs:
     name: Publish new release
     runs-on: ubuntu-latest
     steps:
-      - name: Extract version from branch name (for release branches)
-        run: |
-          BRANCH_NAME=$(git rev-parse --short HEAD)
-          VERSION=${BRANCH_NAME}
 
-          echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Create Release
         uses: thomaseizinger/create-release@1.0.0

@@ -40,8 +40,8 @@ jobs:
     steps:
       - name: Extract version from branch name (for release branches)
         run: |
-          BRANCH_NAME="mike"
-          VERSION=${BRANCH_NAME#release/}
+          BRANCH_NAME=$(shell git rev-parse --short HEAD)
+          VERSION=${BRANCH_NAME}
 
           echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
 

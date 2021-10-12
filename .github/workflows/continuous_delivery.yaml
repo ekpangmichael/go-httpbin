@@ -35,10 +35,10 @@ jobs:
     - name: Test
       run: git show --stat && make testci
 
-    - name: Code coverage
-      uses: codecov/codecov-action@v1
-      with:
-        file: ./coverage.txt
+    # - name: Code coverage
+    #   uses: codecov/codecov-action@v1
+    #   with:
+    #     file: ./coverage.txt
 
   # regression_test:
   #   name: Regression Tests
@@ -65,22 +65,22 @@ jobs:
   #   - name: Test
   #     run: make test
 
-  production_deploy:
-    name: Production Deploy
-    if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
-    needs: [test]
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+  # production_deploy:
+  #   name: Production Deploy
+  #   if: github.ref == 'refs/heads/master'
+  #   runs-on: ubuntu-latest
+  #   needs: [test]
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v2
 
-    - name: Notify start
-      id: deployment
-      uses: bobheadxi/deployments@v0.4.2
-      with:
-        step: start
-        token: ${{ secrets.GITHUB_TOKEN }}
-        env: production
+  #   - name: Notify start
+  #     id: deployment
+  #     uses: bobheadxi/deployments@v0.4.2
+  #     with:
+  #       step: start
+  #       token: ${{ secrets.GITHUB_TOKEN }}
+  #       env: production
 
     # - name: Deploy
     #   uses: superfly/flyctl-actions@1.1

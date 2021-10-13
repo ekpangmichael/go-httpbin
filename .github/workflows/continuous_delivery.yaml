@@ -29,33 +29,33 @@ jobs:
     - name: Build
       run: make build
     - name: Build
-      run: printenv
+      run: VERSION="$(git rev-parse --short HEAD)"
 
     - name: Build docker image
       run: make image
 
     - name: Test
       run: git show --stat && make testci
-  release:
-    name: Publish new release
-    runs-on: ubuntu-latest
-    needs: [test]
-    steps:
-      # - name: Extract version from branch name (for release branches)
-      #   run: |
-      #     VERSION=$(GITHUB_SHA)
+  # release:
+  #   name: Publish new release
+  #   runs-on: ubuntu-latest
+  #   needs: [test]
+  #   steps:
+  #     # - name: Extract version from branch name (for release branches)
+  #     #   run: |
+  #     #     VERSION=$(GITHUB_SHA)
 
-      #     echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
-      - name: Create Release
-        uses: thomaseizinger/create-release@1.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          target_commitish: ${{ github.event.pull_request.merge_commit_sha }}
-          tag_name: ${{ GITHUB_JOB }}
-          name: ${{ GITHUB_JOB }}
-          draft: false
-          prerelease: false 
+  #     #     echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
+  #     - name: Create Release
+  #       uses: thomaseizinger/create-release@1.0.0
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       with:
+  #         target_commitish: ${{ github.event.pull_request.merge_commit_sha }}
+  #         tag_name: ${{ GITHUB_JOB }}
+  #         name: ${{ GITHUB_JOB }}
+  #         draft: false
+  #         prerelease: false 
     # - name: Code coverage
     #   uses: codecov/codecov-action@v1
     #   with:

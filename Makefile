@@ -66,7 +66,7 @@ $(GENERATED_ASSETS_PATH): $(TOOL_GOBINDATA) static/*
 	sed -i.bak 's/Html/HTML/g' $(GENERATED_ASSETS_PATH)
 	sed -i.bak 's/Xml/XML/g' $(GENERATED_ASSETS_PATH)
 	rm $(GENERATED_ASSETS_PATH).bak
-	echo "RELEASE_VERSION=$(VERSION)" >> $(GITHUB_ENV)
+	export "RELEASE_VERSION=$(VERSION)"
 
 
 # =============================================================================

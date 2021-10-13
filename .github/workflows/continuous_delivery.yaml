@@ -106,6 +106,29 @@ jobs:
         name: ${{ env.VERSION }}
         draft: false
         prerelease: false 
+  
+  update_helm_chart:
+    name: update helm chart
+    runs-on: ubuntu-latest
+    needs: [test]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: update helm chart
+      run: |
+       git fetch
+       git checkout argocd
+       value=`cat image.txt`
+       echo "$value"
+       echo ${{ env.VERSION }} >> image.txt
+
+       git config --global user.email "career.ekpangmichael@gmail.com"
+       git config --global user.name "Ekpang Michael"
+       git add . 
+       git commit -m "update helm chart"
+       cat image.txt
+   
+
 
     # - name: Code coverage
     #   uses: codecov/codecov-action@v1

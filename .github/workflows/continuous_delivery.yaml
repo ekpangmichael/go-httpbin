@@ -29,9 +29,9 @@ jobs:
     - name: Build
       run: make build
     - name: setenv
-      run: VERSION=$(git rev-parse --short HEAD) >> $GITHUB_ENV
+      run: echo "VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
     - name: printenv
-      run: printenv
+      run: echo  "${{ env.VERSION }}"
 
     - name: Build docker image
       run: make image

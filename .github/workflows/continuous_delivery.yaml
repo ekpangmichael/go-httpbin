@@ -40,7 +40,7 @@ jobs:
     steps:
       - name: Extract version from branch name (for release branches)
         run: |
-          VERSION=${{ env.GITHUB_SHA}}
+          VERSION=${{GITHUB_SHA}}
 
           echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
 

@@ -90,7 +90,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: setenv
-      run: echo "VERSION=v-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      run: echo "VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
       # - name: Extract version from branch name (for release branches)
       #   run: |
       #     VERSION=$(GITHUB_SHA) 

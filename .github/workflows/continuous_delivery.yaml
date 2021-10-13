@@ -55,7 +55,7 @@ jobs:
           tag_name: ${{ GITHUB_JOB }}
           name: ${{ GITHUB_JOB }}
           draft: false
-          prerelease: false
+          prerelease: false 
     # - name: Code coverage
     #   uses: codecov/codecov-action@v1
     #   with:

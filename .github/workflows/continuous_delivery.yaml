@@ -31,7 +31,7 @@ jobs:
     - name: setenv
       run: VERSION=$(git rev-parse --short HEAD) >> $GITHUB_ENV
     - name: printenv
-      run: printnev
+      run: printenv
 
     - name: Build docker image
       run: make image

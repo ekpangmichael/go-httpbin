@@ -37,10 +37,11 @@ jobs:
   release:
     name: Publish new release
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true # only merged pull requests must trigger this job
     steps:
       - name: Extract version from branch name (for release branches)
         run: |
-          VERSION=${GITHUB_SHA}
+          VERSION="okay"
 
           echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
 
@@ -54,7 +55,6 @@ jobs:
           name: ${{ env.RELEASE_VERSION }}
           draft: false
           prerelease: false
-
     # - name: Code coverage
     #   uses: codecov/codecov-action@v1
     #   with:

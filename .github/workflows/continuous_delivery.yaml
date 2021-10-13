@@ -38,20 +38,20 @@ jobs:
     name: Publish new release
     runs-on: ubuntu-latest
     steps:
-      - name: Extract version from branch name (for release branches)
-        run: |
-          VERSION="okay"
+      # - name: Extract version from branch name (for release branches)
+      #   run: |
+      #     VERSION="okay"
 
-          echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
+      #     echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Create Release
         uses: thomaseizinger/create-release@1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          target_commitish: ${{ github.event.pull_request.merge_commit_sha }}
-          tag_name: ${{ env.RELEASE_VERSION }}
-          name: ${{ env.RELEASE_VERSION }}
+          target_commitish: ${{ env.GITHUB_SHA}}
+          tag_name: ${{ env.GITHUB_SHA }}
+          name: ${{ env.GITHUB_SHA }}
           draft: false
           prerelease: false
     # - name: Code coverage

@@ -94,11 +94,10 @@ jobs:
        git checkout argocd
        echo $VERSION  > image.txt
        cat image.txt
-      #  git config --global user.email "$EMAIL"
-      #  git config --global user.name "$USER"
-      #  git add .
-      #  git commit -m "update helm chart"
-      #  cat image.txt
-      #  git push origin argocd
+       git config --global user.email "$EMAIL"
+       git config --global user.name "$USER"
+       git add .
+       git commit -m "update helm chart"
+       git push origin argocd
 
   

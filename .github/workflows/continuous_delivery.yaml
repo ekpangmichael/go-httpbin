@@ -2,9 +2,9 @@
 name: CD
 on:
   push:
-    branches: [main]
+    branches: [dev, main]
   pull_request:
-    branches: [main]
+    branches: [dev, main]
 
 jobs:
   test:
@@ -82,6 +82,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: setenv
+      run: echo "VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
     - name: update helm chart
       env:
         EMAIL: ${{secrets.GIT_EMAIL}}
@@ -89,13 +91,11 @@ jobs:
       run: |
        git fetch
        git checkout argocd
-       value=`cat image.txt`
-       echo "${{ env.VERSION }}" > image.txt
+       echo $VERSION  > image.txt
        git config --global user.email "$EMAIL"
        git config --global user.name "$USER"
        git add .
        git commit -m "update helm chart"
-       cat image.txt
        git push origin argocd
 
   

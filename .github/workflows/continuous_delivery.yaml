@@ -88,12 +88,11 @@ jobs:
       env:
         EMAIL: ${{secrets.GIT_EMAIL}}
         USER: ${{secrets.GIT_USER}}
-        IMAGEID: ${{ secrets.VERSION }}
+        IMAGEID: ${{secrets.VERSION}}
       run: |
        git fetch
        git checkout argocd
-       echo "$MAGEID" > image.txt
-       value=`cat image.txt`
+       echo "$IMAGEID" > image.txt
        git config --global user.email "$EMAIL"
        git config --global user.name "$USER"
        git add .

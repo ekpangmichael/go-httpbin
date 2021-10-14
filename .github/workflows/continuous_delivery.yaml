@@ -41,10 +41,7 @@ jobs:
           DOCKER_USER: ${{secrets.DOCKER_USERNAME}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
         run: |
-          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      # - name: Build the Docker image
-      #   run: make image
-        
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD      
       - name: Docker Push
         run: make imagepush
 
@@ -56,13 +53,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: setenv
+    - name: Set version
       run: echo "VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-      # - name: Extract version from branch name (for release branches)
-      #   run: |
-      #     VERSION=$(GITHUB_SHA) 
-
-      #     echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
     - name: Create Release
       uses: thomaseizinger/create-release@1.0.0
       env:
@@ -91,11 +83,11 @@ jobs:
       run: |
        git fetch
        git checkout argocd
+       VALUE=`cat image.txt`
+       sed -i "s/$VALUE/$VERSION/g" deployment/charts/values.yaml
        echo $VERSION  > image.txt
        git config --global user.email "$EMAIL"
        git config --global user.name "$USER"
        git add .
        git commit -m "update helm chart"
        git push origin argocd
-
-  

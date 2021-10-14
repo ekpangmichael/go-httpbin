@@ -92,8 +92,8 @@ jobs:
       run: |
        git fetch
        git checkout argocd
-       echo $VERSION
-      #  echo "$IMAGEID" > image.txt
+       echo $VERSION  > image.txt
+       cat image.txt
       #  git config --global user.email "$EMAIL"
       #  git config --global user.name "$USER"
       #  git add .

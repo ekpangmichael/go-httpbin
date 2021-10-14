@@ -82,6 +82,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: setenv
+      run: echo "VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
     - name: update helm chart
       env:
         EMAIL: ${{secrets.GIT_EMAIL}}

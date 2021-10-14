@@ -117,17 +117,18 @@ jobs:
     - name: update helm chart
       env:
         EMAIL: ${{secrets.GIT_EMAIL}}
-        USER: ${{secrets.GIT_GIT_USER}}
+        USER: ${{secrets.GIT_USER}}
       run: |
        git fetch
        git checkout argocd
        value=`cat image.txt`
        echo "$(git rev-parse --short HEAD)" >> image.txt
-      
        git config --global user.email "$EMAIL"
        git config --global user.name "$USER"
+       git add .
        git commit -m "update helm chart"
        cat image.txt
+       git push origin argocd
 
    
 

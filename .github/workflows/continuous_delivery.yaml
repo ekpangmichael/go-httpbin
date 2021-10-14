@@ -117,7 +117,7 @@ jobs:
     - name: update helm chart
       env:
         EMAIL: ${{secrets.GIT_EMAIL}}
-        USER: ${{secrets.GIT_GIT_USER}}
+        USER: ${{secrets.GIT_USER}}
       run: |
        git fetch
        git checkout argocd

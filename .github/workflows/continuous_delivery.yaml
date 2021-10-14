@@ -48,31 +48,31 @@ jobs:
   #     - name: Docker Push
   #       run: make imagepush
 
-  # create_release:
-  #   name: Publish new release
-  #   if: github.ref == 'refs/heads/main'
-  #   runs-on: ubuntu-latest
-  #   needs: [push_to_registry]
-  #   steps:
-  #   - name: Checkout
-  #     uses: actions/checkout@v2
-  #   - name: setenv
-  #     run: echo "VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-  #     # - name: Extract version from branch name (for release branches)
-  #     #   run: |
-  #     #     VERSION=$(GITHUB_SHA) 
+  create_release:
+    name: Publish new release
+    # if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    # needs: [push_to_registry]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: setenv
+      run: echo "VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      # - name: Extract version from branch name (for release branches)
+      #   run: |
+      #     VERSION=$(GITHUB_SHA) 
 
-  #     #     echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
-  #   - name: Create Release
-  #     uses: thomaseizinger/create-release@1.0.0
-  #     env:
-  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #     with:
-  #       target_commitish: ${{ github.event.pull_request.merge_commit_sha }}
-  #       tag_name: ${{ env.VERSION }}
-  #       name: ${{ env.VERSION }}
-  #       draft: false
-  #       prerelease: false 
+      #     echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
+    - name: Create Release
+      uses: thomaseizinger/create-release@1.0.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        target_commitish: ${{ github.event.pull_request.merge_commit_sha }}
+        tag_name: ${{ env.VERSION }}
+        name: ${{ env.VERSION }}
+        draft: false
+        prerelease: false 
   
   update_helm_chart:
     name: update helm chart
@@ -86,12 +86,13 @@ jobs:
       env:
         EMAIL: ${{secrets.GIT_EMAIL}}
         USER: ${{secrets.GIT_USER}}
+        VERSION: ${{ secrets.VERSION }}
       run: |
        echo "VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV 
        git fetch
        git checkout argocd
        value=`cat image.txt`
-       echo "${{ env.VERSION }}" >> image.txt
+       echo $VERSION >> image.txt
        git config --global user.email "$EMAIL"
        git config --global user.name "$USER"
        git add .

@@ -92,12 +92,13 @@ jobs:
       run: |
        git fetch
        git checkout argocd
-       echo "$IMAGEID" > image.txt
-       git config --global user.email "$EMAIL"
-       git config --global user.name "$USER"
-       git add .
-       git commit -m "update helm chart"
-       cat image.txt
-       git push origin argocd
+       echo $IMAGEID
+      #  echo "$IMAGEID" > image.txt
+      #  git config --global user.email "$EMAIL"
+      #  git config --global user.name "$USER"
+      #  git add .
+      #  git commit -m "update helm chart"
+      #  cat image.txt
+      #  git push origin argocd
 
   

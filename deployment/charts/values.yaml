@@ -1,5 +1,5 @@
 image:
-  repository: weezyval/go-httpbin:b5450b3
+  repository: weezyval/go-httpbin:c3ed6ef
   pullPolicy: Always
 
 replicaCount: 1

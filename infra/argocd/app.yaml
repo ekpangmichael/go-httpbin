@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: go-httpbin
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/ekpangmichael/go-httpbin.git
+    targetRevision: argocd
+    path: deployment/charts
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: go-httpbin
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    - PruneLast=true
+    automated:
+      selfHeal: true
+        

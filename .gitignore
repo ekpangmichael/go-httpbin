@@ -25,3 +25,8 @@ _testmain.go
 
 dist/*
 coverage.txt
+.terraform.lock.hcl
+kubeconfig_on-cluster
+terraform.tfstate
+terraform.tfstate.backup
+.terraform

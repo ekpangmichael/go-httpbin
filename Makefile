@@ -17,7 +17,7 @@ VERSION ?= $(shell git rev-parse --short HEAD)
 # GCLOUD_COMMAND ?= ./bin/gcloud
 
 # We push docker images to both docker hub and gcr.io
-DOCKER_TAG_DOCKERHUB ?= mccutchen/go-httpbin:$(VERSION)
+DOCKER_TAG_DOCKERHUB ?= weezyval/testing:$(VERSION)
 # DOCKER_TAG_GCLOUD    ?= gcr.io/$(GCLOUD_PROJECT)/go-httpbin:$(VERSION)
 
 # Built binaries will be placed here
@@ -66,6 +66,7 @@ $(GENERATED_ASSETS_PATH): $(TOOL_GOBINDATA) static/*
 	sed -i.bak 's/Html/HTML/g' $(GENERATED_ASSETS_PATH)
 	sed -i.bak 's/Xml/XML/g' $(GENERATED_ASSETS_PATH)
 	rm $(GENERATED_ASSETS_PATH).bak
+	
 
 
 # =============================================================================

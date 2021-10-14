@@ -88,7 +88,6 @@ jobs:
         USER: ${{secrets.GIT_USER}}
       run: |
        git fetch
-       git checkout argocd
        value=`cat image.txt`
        echo "$(git rev-parse --short HEAD)" > image.txt
        git config --global user.email "$EMAIL"
@@ -96,6 +95,6 @@ jobs:
        git add .
        git commit -m "update helm chart"
        cat image.txt
-       git push origin argocd
+       git push origin main
 
   

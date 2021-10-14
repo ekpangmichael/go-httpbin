@@ -76,7 +76,7 @@ jobs:
   
   update_helm_chart:
     name: update helm chart
-    if: github.ref == 'refs/heads/main'
+    # if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     # needs: [create_release]
     steps:

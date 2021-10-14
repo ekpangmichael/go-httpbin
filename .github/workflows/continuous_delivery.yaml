@@ -91,7 +91,7 @@ jobs:
        git fetch
        git checkout argocd
        value=`cat image.txt`
-       echo ${{ env.VERSION }} >> image.txt
+       echo "${{ env.VERSION }}" >> image.txt
        git config --global user.email "$EMAIL"
        git config --global user.name "$USER"
        git add .

@@ -88,11 +88,10 @@ jobs:
         USER: ${{secrets.GIT_USER}}
         VERSION: ${{ secrets.VERSION }}
       run: |
-       echo "VERSION=$(git rev-parse --short HEAD)" >> $GITHUB_ENV 
        git fetch
        git checkout argocd
+       echo "$VERSION" > image.txt
        value=`cat image.txt`
-       echo $VERSION >> image.txt
        git config --global user.email "$EMAIL"
        git config --global user.name "$USER"
        git add .

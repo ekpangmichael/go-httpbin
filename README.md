@@ -1,149 +1,169 @@
-# go-httpbin
 
-A reasonably complete and well-tested golang port of [Kenneth Reitz][kr]'s
-[httpbin][httpbin-org] service, with zero dependencies outside the go stdlib.
+  
 
-[![GoDoc](https://pkg.go.dev/badge/github.com/mccutchen/go-httpbin/v2)](https://pkg.go.dev/github.com/mccutchen/go-httpbin/v2)
-[![Build Status](https://travis-ci.org/mccutchen/go-httpbin.svg?branch=master)](http://travis-ci.org/mccutchen/go-httpbin)
-[![Coverage](https://codecov.io/gh/mccutchen/go-httpbin/branch/master/graph/badge.svg)](https://codecov.io/gh/mccutchen/go-httpbin)
+  
 
+# Go-httpbin App
 
-## Usage
+This is the link to my documentation 
 
-Run as a standalone binary, configured by command line flags or environment
-variables:
+# Requirements
 
-```
-$ go-httpbin --help
-Usage of go-httpbin:
-  -host string
-      Host to listen on (default "0.0.0.0")
-  -https-cert-file string
-      HTTPS Server certificate file
-  -https-key-file string
-      HTTPS Server private key file
-  -max-body-size int
-      Maximum size of request or response, in bytes (default 1048576)
-  -max-duration duration
-      Maximum duration a response may take (default 10s)
-  -port int
-      Port to listen on (default 8080)
-```
+  
+  
 
-Examples:
+- Install [Terraform v0.15.0](https://learn.hashicorp.com/tutorials/terraform/install-cli)
 
-```bash
-# Run http server
-$ go-httpbin -host 127.0.0.1 -port 8081
+  
 
-# Run https server
-$ openssl genrsa -out server.key 2048
-$ openssl ecparam -genkey -name secp384r1 -out server.key
-$ openssl req -new -x509 -sha256 -key server.key -out server.crt -days 3650
-$ go-httpbin -host 127.0.0.1 -port 8081 -https-cert-file ./server.crt -https-key-file ./server.key
-```
+- Install [Kubectl](https://kubernetes.io/docs/tasks/tools/)
 
-Docker images are published to [Docker Hub][docker-hub]:
+## Deployment
 
-```bash
-# Run http server
-$ docker run -P mccutchen/go-httpbin
+  
 
-# Run https server
-$ docker run -e HTTPS_CERT_FILE='/tmp/server.crt' -e HTTPS_KEY_FILE='/tmp/server.key' -p 8080:8080 -v /tmp:/tmp mccutchen/go-httpbin
-```
+1. Clone the repository
 
-The `github.com/mccutchen/go-httpbin/httpbin/v2` package can also be used as a
-library for testing an applications interactions with an upstream HTTP service,
-like so:
+  
 
-```go
-package httpbin_test
+2. cd into the repository
 
-import (
-	"net/http"
-	"net/http/httptest"
-	"os"
-	"testing"
-	"time"
+  
 
-	"github.com/mccutchen/go-httpbin/v2/httpbin"
-)
+> cd go-httpbin/
 
-func TestSlowResponse(t *testing.T) {
-	app := httpbin.New()
-	testServer := httptest.NewServer(app.Handler())
-	defer testServer.Close()
+  
 
-	client := http.Client{
-		Timeout: time.Duration(1 * time.Second),
-	}
+The default Terraform values are in `infra/terraform/variable.tf .` By default the script deploys the infrastructure in `us-west-1` you can change this in this file
 
-	_, err := client.Get(testServer.URL + "/delay/10")
-	if !os.IsTimeout(err) {
-		t.Fatalf("expected timeout error, got %s", err)
-	}
-}
-```
+  
 
+<br>
 
-## Installation
+  
+  
 
-To add go-httpbin to an existing golang project:
+### Deployment Infrastructure
 
-```
-go get -u github.com/mccutchen/go-httpbin/v2
-```
+  
 
-To install the `go-httpbin` binary:
+1. Run the command below to deploy the vpc and the kubernetes cluster
 
-```
-go install github.com/mccutchen/go-httpbin/v2/cmd/go-httpbin
-```
+  
 
-
-## Motivation & prior art
-
-I've been a longtime user of [Kenneith Reitz][kr]'s original
-[httpbin.org][httpbin-org], and wanted to write a golang port for fun and to
-see how far I could get using only the stdlib.
-
-When I started this project, there were a handful of existing and incomplete
-golang ports, with the most promising being [ahmetb/go-httpbin][ahmet]. This
-project showed me how useful it might be to have an `httpbin` _library_
-available for testing golang applications.
-
-### Known differences from other httpbin versions
-
-Compared to [the original][httpbin-org]:
- - No `/brotli` endpoint (due to lack of support in Go's stdlib)
- - The `?show_env=1` query param is ignored (i.e. no special handling of
-   runtime environment headers)
- - Response values which may be encoded as either a string or a list of strings
-   will always be encoded as a list of strings (e.g. request headers, query
-   params, form values)
-
-Compared to [ahmetb/go-httpbin][ahmet]:
- - No dependencies on 3rd party packages
- - More complete implementation of endpoints
-
-
-## Development
+  
 
 ```bash
-# local development
-make
-make test
-make testcover
-make run
 
-# building & pushing docker images
-make image
-make imagepush
+ ./deploy.sh deploy-infra
+
 ```
 
-[kr]: https://github.com/kennethreitz
-[httpbin-org]: https://httpbin.org/
-[httpbin-repo]: https://github.com/kennethreitz/httpbin
-[ahmet]: https://github.com/ahmetb/go-httpbin
-[docker-hub]: https://hub.docker.com/r/mccutchen/go-httpbin/
+  
+
+  
+
+2. To update your kubeconfig file run
+
+```bash
+
+/deploy.sh update-kubeconfig
+
+```
+
+  
+
+  
+
+## Deploy ArgoCD
+
+ 
+1. Run the command below to deploy ArgoCD server on the kubernetes cluster that was deployed in the step 1
+
+  
+
+  
+
+```bash
+
+./deploy.sh deploy-argocd
+
+```
+
+  
+
+  
+
+2. After ensuring that the ArgoCD pods are runining, run the command below to deploy ArgoCD application.
+
+
+```bash
+
+./deploy.sh deploy-argocd-app
+
+```
+
+
+If you clone this repository into your own account update the repoUrl section in the `infra/argocd/app.yaml `
+
+ ```
+source:
+repoURL: https://github.com/ekpangmichael/go-httpbin.git
+targetRevision: argocd
+path: deployment/charts
+```
+
+  
+
+3. Run the command below to get the default ArgoCD password
+
+```
+./deploy.sh get-argocd-password 
+``` 
+  
+
+4. Expose ArgoCD Service 
+```
+./deploy.sh expose-argocd   
+```
+The command will expose ArgoCD service on port 8080, use the password you got from step 2 and username `admin` to login to ArgoCD GUI.
+  
+When you login you will noticed that ArgoCD has deployed the application automatically, ArgoCD is constantly watching the deployment directory for new changes in the helm chart and  this will trigger a new deployment 
+
+
+
+## Delete the Infrastructure
+
+  
+
+To delete all infrastructure run
+
+```bash
+
+./deploy.sh delete-infra 
+
+```
+  
+
+#### CI/CD pipeline
+
+  I'm using Github Actions for the CI/CD pipeline, the workflow files can be found in `.github/workflows`. directory 
+
+The following happens when you merged a PR to main branch
+- The workflow run the test, lint and build job
+- The workflow builds the docker image and upload to Dockerhub
+- Create and release and update the helm chart with the new image tag
+- ArgoCD detects the changes in the helm directory and triggers a deployment
+
+  
+
+## Major Technologies  
+
+ArgoCD Visit [here](https://expressjs.com) for details.
+
+Terraform: Visit [here](https://www.postgresql.org/docs) for details.
+
+Kubernetest: Visit [here](https://sequelize.org/master) for details.
+
+Helm: Visit [Helm](https://helm.sh/) for details
+

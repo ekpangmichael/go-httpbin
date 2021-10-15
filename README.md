@@ -136,6 +136,13 @@ The command will expose ArgoCD service on port 8080, use the password you got fr
 When you login you will noticed that ArgoCD has deployed the application automatically, ArgoCD is constantly watching the deployment directory for new changes in the helm chart and  this will trigger a new deployment 
 
 
+Note: If you clone this project into your account you need to add the following github secrets
+<br>DOCKER_PASSWORD <br>
+DOCKER_USERNAME <br>
+GIT_EMAIL <br>
+GIT_USER
+
+
 
 ## Delete the Infrastructure
 

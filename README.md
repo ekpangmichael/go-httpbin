@@ -7,6 +7,11 @@
 
 This is the link to my documentation [Google docs link](https://docs.google.com/document/d/1A7WEx7mT9K3UoXUQl7TDt9BJ3FxbFr4xfwFZWdNGbec/edit?usp=sharing)
 
+
+## Watch Demo Video
+
+[![Alt text](https://img.youtube.com/vi/fCHhccAY-9w/0.jpg)](https://www.youtube.com/watch?v=fCHhccAY-9w)
+
 # Requirements
 
   
@@ -17,6 +22,8 @@ This is the link to my documentation [Google docs link](https://docs.google.com/
   
 
 - Install [Kubectl](https://kubernetes.io/docs/tasks/tools/)
+
+Ensure that you have configure your aws credentials
 
 ## Deployment
 
@@ -67,7 +74,7 @@ The default Terraform values are in `infra/terraform/variable.tf .` By default t
 
 ```bash
 
-/deploy.sh update-kubeconfig
+./deploy.sh update-kubeconfig
 
 ```
 
@@ -128,7 +135,14 @@ path: deployment/charts
 ```
 The command will expose ArgoCD service on port 8080, use the password you got from step 2 and username `admin` to login to ArgoCD GUI.
   
-When you login you will noticed that ArgoCD has deployed the application automatically, ArgoCD is constantly watching the deployment directory for new changes in the helm chart and  this will trigger a new deployment 
+When you login, you will noticed that ArgoCD has deployed the application automatically, ArgoCD is constantly watching the deployment directory for new changes in the helm chart and  this will trigger a new deployment 
+
+
+Note: If you clone this project into your account you need to add the following github secrets
+<br>DOCKER_PASSWORD <br>
+DOCKER_USERNAME <br>
+GIT_EMAIL <br>
+GIT_USER
 
 
 
@@ -136,7 +150,7 @@ When you login you will noticed that ArgoCD has deployed the application automat
 
   
 
-To delete all infrastructure run
+To delete the infrastructure run
 
 ```bash
 
@@ -147,23 +161,23 @@ To delete all infrastructure run
 
 #### CI/CD pipeline
 
-  I'm using Github Actions for the CI/CD pipeline, the workflow files can be found in `.github/workflows`. directory 
+  I'm using Github Actions for the CI/CD pipeline, the workflow files can be found in `.github/workflows` directory 
 
 The following happens when you merged a PR to main branch
 - The workflow run the test, lint and build job
 - The workflow builds the docker image and upload to Dockerhub
-- Create and release and update the helm chart with the new image tag
-- ArgoCD detects the changes in the helm directory and triggers a deployment
+- Creates a new release and update the helm chart with the new image tag
+- ArgoCD detects the changes in the helm  chart directory and triggers a deployment
 
   
 
 ## Major Technologies  
 
-ArgoCD Visit [here](https://expressjs.com) for details.
+ArgoCD Visit [here](https://argo-cd.readthedocs.io/en/stable/) for details.
 
-Terraform: Visit [here](https://www.postgresql.org/docs) for details.
+Terraform: Visit [here](https://www.terraform.io/) for details.
 
-Kubernetest: Visit [here](https://sequelize.org/master) for details.
+Kubernetest: Visit [here](https://kubernetes.io/) for details.
 
 Helm: Visit [Helm](https://helm.sh/) for details
 

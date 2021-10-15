@@ -23,6 +23,8 @@ This is the link to my documentation [Google docs link](https://docs.google.com/
 
 - Install [Kubectl](https://kubernetes.io/docs/tasks/tools/)
 
+Ensure that you have configure your aws credentials
+
 ## Deployment
 
   

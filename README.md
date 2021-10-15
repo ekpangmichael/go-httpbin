@@ -7,6 +7,8 @@
 
 This is the link to my documentation [Google docs link](https://docs.google.com/document/d/1A7WEx7mT9K3UoXUQl7TDt9BJ3FxbFr4xfwFZWdNGbec/edit?usp=sharing)
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/fCHhccAY-9w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 # Requirements
 
   
@@ -67,7 +69,7 @@ The default Terraform values are in `infra/terraform/variable.tf .` By default t
 
 ```bash
 
-/deploy.sh update-kubeconfig
+./deploy.sh update-kubeconfig
 
 ```
 

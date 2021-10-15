@@ -135,7 +135,7 @@ path: deployment/charts
 ```
 The command will expose ArgoCD service on port 8080, use the password you got from step 2 and username `admin` to login to ArgoCD GUI.
   
-When you login you will noticed that ArgoCD has deployed the application automatically, ArgoCD is constantly watching the deployment directory for new changes in the helm chart and  this will trigger a new deployment 
+When you login, you will noticed that ArgoCD has deployed the application automatically, ArgoCD is constantly watching the deployment directory for new changes in the helm chart and  this will trigger a new deployment 
 
 
 Note: If you clone this project into your account you need to add the following github secrets
@@ -150,7 +150,7 @@ GIT_USER
 
   
 
-To delete all infrastructure run
+To delete the infrastructure run
 
 ```bash
 
@@ -161,23 +161,23 @@ To delete all infrastructure run
 
 #### CI/CD pipeline
 
-  I'm using Github Actions for the CI/CD pipeline, the workflow files can be found in `.github/workflows`. directory 
+  I'm using Github Actions for the CI/CD pipeline, the workflow files can be found in `.github/workflows` directory 
 
 The following happens when you merged a PR to main branch
 - The workflow run the test, lint and build job
 - The workflow builds the docker image and upload to Dockerhub
-- Create and release and update the helm chart with the new image tag
-- ArgoCD detects the changes in the helm directory and triggers a deployment
+- Creates a new release and update the helm chart with the new image tag
+- ArgoCD detects the changes in the helm  chart directory and triggers a deployment
 
   
 
 ## Major Technologies  
 
-ArgoCD Visit [here](https://expressjs.com) for details.
+ArgoCD Visit [here](https://argo-cd.readthedocs.io/en/stable/) for details.
 
-Terraform: Visit [here](https://www.postgresql.org/docs) for details.
+Terraform: Visit [here](https://www.terraform.io/) for details.
 
-Kubernetest: Visit [here](https://sequelize.org/master) for details.
+Kubernetest: Visit [here](https://kubernetes.io/) for details.
 
 Helm: Visit [Helm](https://helm.sh/) for details
 

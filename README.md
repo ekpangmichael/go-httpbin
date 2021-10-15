@@ -5,7 +5,7 @@
 
 # Go-httpbin App
 
-This is the link to my documentation 
+This is the link to my documentation [Google docs link](https://docs.google.com/document/d/1A7WEx7mT9K3UoXUQl7TDt9BJ3FxbFr4xfwFZWdNGbec/edit?usp=sharing)
 
 # Requirements
 
@@ -47,7 +47,7 @@ The default Terraform values are in `infra/terraform/variable.tf .` By default t
 
   
 
-1. Run the command below to deploy the vpc and the kubernetes cluster
+1. Run the command below to deploy the vpc and the kubernetes cluster . Ensure you have configured your AWS credentials
 
   
 

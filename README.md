@@ -1,17 +1,3 @@
-
-  
-
-  
-
-# Go-httpbin App
-
-This is the link to my documentation [Google docs link](https://docs.google.com/document/d/1A7WEx7mT9K3UoXUQl7TDt9BJ3FxbFr4xfwFZWdNGbec/edit?usp=sharing)
-
-
-## Watch Demo Video
-
-[![Alt text](https://img.youtube.com/vi/fCHhccAY-9w/0.jpg)](https://www.youtube.com/watch?v=fCHhccAY-9w)
-
 # Requirements
 
   
@@ -26,7 +12,6 @@ This is the link to my documentation [Google docs link](https://docs.google.com/
 Ensure that you have configure your aws credentials
 
 ## Deployment
-dfjsdfsdfj
   
 
 1. Clone the repository
@@ -177,7 +162,7 @@ ArgoCD Visit [here](https://argo-cd.readthedocs.io/en/stable/) for details.
 
 Terraform: Visit [here](https://www.terraform.io/) for details.
 
-Kubernetest: Visit [here](https://kubernetes.io/) for details.
+Kubernetes: Visit [here](https://kubernetes.io/) for details.
 
 Helm: Visit [Helm](https://helm.sh/) for details
 
